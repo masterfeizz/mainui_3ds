@@ -72,7 +72,7 @@ typedef int BOOL;
 typedef int qboolean;
 typedef unsigned char byte;
 typedef unsigned int uint;
-typedef unsigned int uint32; //!!!
+typedef uint32_t uint32;
 
 #include "menu_int.h"
 

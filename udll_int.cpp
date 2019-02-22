@@ -80,3 +80,30 @@ extern "C" EXPORT int GiveTextAPI( ui_textfuncs_t* pTextfuncsFromEngine )
 	return TRUE;
 }
 #endif
+
+#ifdef _3DS
+
+//===============================
+// exports for 3ds dlsym()
+//===============================
+
+typedef struct dllexport_s
+{
+	const char *name;
+	void *func;
+} dllexport_t;
+
+dllexport_t ctr_mainui_exports[] = {
+	{ "GetMenuAPI", (void*)GetMenuAPI },
+	{ "GiveTextAPI", (void*)GiveTextAPI },
+	{ NULL, NULL },
+};
+
+extern "C" int dll_register( const char *name, dllexport_t *exports );
+
+extern "C" int ctr_installdll_mainui( void )
+{
+	return dll_register( "menu", ctr_mainui_exports );
+}
+
+#endif

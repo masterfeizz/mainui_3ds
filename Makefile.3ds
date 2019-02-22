@@ -1,0 +1,91 @@
+PREFIX    = $(DEVKITARM)/bin/arm-none-eabi
+CC        = $(PREFIX)-gcc
+CXX       = $(PREFIX)-g++
+AR        = $(PREFIX)-ar
+
+SRCS := \
+	controls/Framework.cpp           \
+	controls/BaseItem.cpp            \
+	controls/Action.cpp              \
+	controls/Bitmap.cpp              \
+	controls/Editable.cpp            \
+	controls/CheckBox.cpp            \
+	controls/ItemsHolder.cpp         \
+	controls/Field.cpp               \
+	controls/PicButton.cpp           \
+	controls/Slider.cpp              \
+	controls/SpinControl.cpp         \
+	controls/YesNoMessageBox.cpp     \
+	controls/MessageBox.cpp          \
+	controls/Switch.cpp              \
+	controls/ProgressBar.cpp         \
+	controls/BaseWindow.cpp          \
+	controls/BackgroundBitmap.cpp    \
+	controls/Table.cpp               \
+	controls/TabView.cpp             \
+	controls/PlayerModelView.cpp     \
+	controls/ScrollView.cpp          \
+	menus/AdvancedControls.cpp       \
+	menus/Audio.cpp                  \
+	menus/Configuration.cpp          \
+	menus/ConnectionProgress.cpp     \
+	menus/ConnectionWarning.cpp      \
+	menus/Controls.cpp               \
+	menus/CreateGame.cpp             \
+	menus/Credits.cpp                \
+	menus/CustomGame.cpp             \
+	menus/FileDialog.cpp             \
+	menus/GameOptions.cpp            \
+	menus/Gamepad.cpp                \
+	menus/InputDevices.cpp           \
+	menus/LoadGame.cpp               \
+	menus/Main.cpp                   \
+	menus/Multiplayer.cpp            \
+	menus/NewGame.cpp                \
+	menus/PlayerIntroduceDialog.cpp  \
+	menus/PlayerSetup.cpp            \
+	menus/SaveLoad.cpp               \
+	menus/ServerBrowser.cpp          \
+	menus/TouchButtons.cpp           \
+	menus/Touch.cpp                  \
+	menus/TouchEdit.cpp              \
+	menus/TouchOptions.cpp           \
+	menus/Video.cpp                  \
+	menus/VideoModes.cpp             \
+	menus/VideoOptions.cpp           \
+	menus/dynamic/ScriptMenu.cpp     \
+	font/FontManager.cpp             \
+	font/BaseFontBackend.cpp         \
+	font/StbFont.cpp                 \
+	font/BitmapFont.cpp	             \
+	miniutl/utlmemory.cpp            \
+	unicode_strtools.cpp             \
+	EventSystem.cpp                  \
+	BaseMenu.cpp                     \
+	Btns.cpp                         \
+	MenuStrings.cpp                  \
+	Utils.cpp                        \
+	Scissor.cpp                      \
+	udll_int.cpp                     \
+	CFGScript.cpp                    \
+	EngineCallback.cpp               \
+	WindowSystem.cpp
+
+OBJS += $(SRCS:.cpp=.o)
+
+LIBS = -lc -lm -lstdc++
+
+
+INCLUDES = -I. -I../common -I../pm_shared -I../engine -I../engine/common -I../utils/vgui/include -Imenus -Icontrols -Ifont -Iminiutl -Imodel
+DEFINES = -D_3DS -DMAINUI_USE_CUSTOM_FONT_RENDER -DNO_STL -DMAINUI_FONT_SCALE
+CFLAGS =  -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -O2 -Wl,-q -Wfatal-errors -Wno-write-strings -fsigned-char -fno-short-enums  $(DEFINES) $(INCLUDES)
+CXXFLAGS = $(CFLAGS) -std=gnu++11 -fno-rtti -fno-exceptions -static-libstdc++ -static-libgcc
+ASFLAGS = $(CFLAGS)
+
+all: libmainui.a
+
+libmainui.a: $(OBJS)
+	$(AR) -rcs libmainui.a $(OBJS)
+
+clean:
+	@rm -rf $(OBJS) *.a
